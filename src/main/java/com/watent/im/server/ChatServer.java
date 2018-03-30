@@ -1,7 +1,10 @@
 package com.watent.im.server;
 
 import com.watent.im.handler.HttpHandler;
+import com.watent.im.handler.SFPHandler;
 import com.watent.im.handler.WebSocketHandler;
+import com.watent.im.protocol.SFPDecoder;
+import com.watent.im.protocol.SFPEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -46,6 +49,11 @@ public class ChatServer {
                     protected void initChannel(SocketChannel ch) throws Exception {
 
                         ChannelPipeline pipeline = ch.pipeline();
+
+                        pipeline.addLast(new SFPDecoder());
+                        pipeline.addLast(new SFPEncoder());
+                        pipeline.addLast(new SFPHandler());
+
                         //支持Http协议
                         //Http请求处理的编解码器
                         pipeline.addLast(new HttpServerCodec());

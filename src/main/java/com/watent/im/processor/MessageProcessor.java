@@ -33,6 +33,7 @@ public class MessageProcessor {
             return;
         }
         MessageObject msgObj = codec.decoder(message);
+
         if (msgObj.getCmd().equals(MessageStatus.LOGIN)) {
             //为Channel绑定昵称属性
             client.attr(nickname).set(msgObj.getNickname());
@@ -66,6 +67,12 @@ public class MessageProcessor {
 
         users.add(client);
         System.out.println("当前在线人数:" + users.size());
+    }
+
+    public void messageHandler(Channel client, MessageObject message) {
+        String codecMsg = codec.encoder(message);
+        System.out.println("codecMsg:" + codecMsg);
+        messageHandler(client, codecMsg);
     }
 
     public void logout(Channel client) {

@@ -1,12 +1,17 @@
 package com.watent.im.protocol;
 
+import org.msgpack.annotation.Message;
+
+import java.io.Serializable;
+
 /**
  * 消息对象封装
  *
  * @author Dylan
  * @date 2018/3/28 09:26
  */
-public class MessageObject {
+@Message
+public class MessageObject implements Serializable {
 
     /**
      * 消息指令
@@ -30,6 +35,9 @@ public class MessageObject {
      */
     private int online;
 
+    //序列化  默认无参构造器
+    public MessageObject() {
+    }
 
     public MessageObject(String cmd, long time, String nickName) {
         super();
@@ -47,6 +55,7 @@ public class MessageObject {
     }
 
     public MessageObject(String cmd, Long time, String nickname, String content, int online) {
+        super();
         this.cmd = cmd;
         this.time = time;
         this.nickname = nickname;
